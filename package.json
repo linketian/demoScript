@@ -5,6 +5,7 @@
   "main": "demo.js",
   "scripts": {
     "my-demo": "node demo.js",
+    "postinstall": "node demo.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
