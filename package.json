@@ -1,13 +1,7 @@
 {
   "name": "mydemo",
-  "version": "1.0.11",
-  "main": "demo.js",
+  "version": "1.0.12",
   "bin": {
-    "mydemo": "./demo.js"
-  },
-  "scripts": {
-    "start": "node demo.js"
-  },
-  "author": "",
-  "license": "ISC"
+    "mydemo": "demo.js" 
+  }
 }
