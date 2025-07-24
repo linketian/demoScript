@@ -1,12 +1,12 @@
 {
   "name": "mydemo",
-  "version": "1.0.10",
-  "description": "",
+  "version": "1.0.11",
   "main": "demo.js",
+  "bin": {
+    "mydemo": "./demo.js"
+  },
   "scripts": {
-    "my-demo": "node demo.js",
-    "postinstall": "node demo.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node demo.js"
   },
   "author": "",
   "license": "ISC"
