@@ -1,7 +1,11 @@
 {
   "name": "mydemo",
-  "version": "1.0.12",
+  "version": "1.0.13",
+  "description": "一键安装并配置Electron的工具",
+  "author": "linketian",
+  "main": "demo.js",
   "bin": {
-    "mydemo": "demo.js" 
-  }
+    "mydemo": "demo.js"
+  },
+  "license": "ISC"
 }
