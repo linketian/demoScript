@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const { execSync } = require('child_process');
 const { getVitePort } = require('./utils/tools');
+const bannerMain = require('./utils/bannerMain');
 const fs = require('fs');
 const path = require('path');
 const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
@@ -40,62 +41,7 @@ const installDependencies = () => {
 const createMainProcessFile = () => {
 
 
-  const mainContent =
-    `const { app, BrowserWindow } = require('electron');
-const path = require('path');
-const isDev = require('electron-is-dev');
-
-// 保持对window对象的全局引用，否则窗口会被自动关闭
-let mainWindow;
-
-function createWindow() {
-  // 创建浏览器窗口
-  mainWindow = new BrowserWindow({
-    width: 1024,
-    height: 768,
-    webPreferences: {
-      contextIsolation: true, // 安全设置
-      nodeIntegration: false,
-      preload: path.join(__dirname, 'electron-preload.js') // 预加载脚本路径
-    }
-  });
-
-  // 加载应用
-  mainWindow.loadURL(
-    isDev 
-      ? 'http://localhost:${getVitePort()}' // 默认React开发服务器
-      : \`file://\${path.join(__dirname, '../build/index.html')}\` // React构建路径
-  );
-
-  // 开发环境打开开发者工具
-  if (isDev) {
-    mainWindow.webContents.openDevTools();
-  }
-
-  // 窗口关闭时触发
-  mainWindow.on('closed', () => {
-    mainWindow = null;
-  });
-}
-
-// 应用就绪时创建窗口
-app.on('ready', createWindow);
-
-// 所有窗口关闭时退出
-app.on('window-all-closed', () => {
-  // macOS特殊处理
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
-
-// 应用激活时（macOS Dock点击）
-app.on('activate', () => {
-  if (mainWindow === null) {
-    createWindow();
-  }
-});
-`;
+  const mainContent = `${bannerMain}`;
 
   // 创建预加载脚本（空文件，用于后续扩展）
   const preloadContent = `// 预加载脚本示例
