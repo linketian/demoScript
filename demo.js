@@ -28,8 +28,9 @@ const installDependencies = () => {
   console.log('📦 开始安装Electron及依赖...');
   try {
     // 安装核心依赖
-    execSync('npm install electron --save-dev', { stdio: 'inherit' });
-    execSync('npm install electron-is-dev --save', { stdio: 'inherit' });
+    execSync('npm install electron', { stdio: 'inherit' });
+    execSync('npm install electron-is-dev', { stdio: 'inherit' });
+    execSync('npm install electron-updater', { stdio: 'inherit' });
     console.log('✅ 依赖安装完成');
   } catch (error) {
     console.error('❌ 依赖安装失败：', error.message);

@@ -1,7 +1,12 @@
 const { app, Tray, BrowserWindow, Menu, ipcMain, globalShortcut, screen, dialog } = require('electron');
 const path = require('path');
 const isDev = require('electron-is-dev');
+const { autoUpdater } = require('electron-updater');
 
+
+const winURL = isDev
+    ? `http://localhost:${getVitePort()}`
+    : `file://${path.join(__dirname, '../build/index.html')}`;
 // 保持对window对象的全局引用，否则窗口会被自动关闭
 let mainWindow, sonWindow;
 
@@ -18,12 +23,7 @@ function createWindow() {
     });
 
     // 加载应用
-    if (isDev) {
-        mainWindow.loadURL(`http://localhost:${getVitePort()}`);
-    } else {
-        mainWindow.loadURL(`file://${path.join(__dirname, '../build/index.html')}`);
-
-    }
+    mainWindow.loadURL(winURL);
     // 开发环境打开开发者工具
     if (isDev) {
         mainWindow.webContents.openDevTools();
@@ -67,6 +67,10 @@ function createSonWindow(parms) {
     sonWindow.loadURL(parms.router ? winURL + '#' + parms.url : parms.url)
 }
 
+function quitApp() {
+    app.quit();
+}
+
 
 // 应用就绪时创建窗口
 app.on('ready', () => {
@@ -74,13 +78,13 @@ app.on('ready', () => {
     createSonWindow({
         width: 400, // 宽度
         height: 300, // 高度
-        url: path.join(fileUrl, `/view/loading.html`),
+        url: path.join(__dirname, `/view/loading.html`),
         router: false, // 是否使用项目中路由进行窗口地址加载
         frame: false,
     })
     // 创建任务栏图标
     let tray = null;
-    tray = new Tray(path.join(fileUrl, '/img/logo.png'));
+    tray = new Tray(path.join(__dirname, '/img/logo.png'));
     const contextMenu = Menu.buildFromTemplate([
         // { label: 'Item 1', type: 'normal',click: () => console.log('Item 1====>', )},
         // { label: 'Item 2', type: 'normal' },
@@ -144,17 +148,17 @@ app.on('browser-window-blur', () => {
     globalShortcut.unregister('F5');
 });
 
-ipcMain.on('fromVueMessages', (event, args) => {
-    switch (args.type) {
-        case 'getScaleFactor':
-            const primaryDisplay = screen.getPrimaryDisplay();
-            const scaleFactor = 1 / primaryDisplay.scaleFactor;
-            sendVueMain({ type: 'getScaleFactor', val: scaleFactor })
-            break;
-        default:
-            break;
-    }
-})
+// ipcMain.on('fromVueMessages', (event, args) => {
+//     switch (args.type) {
+//         case 'getScaleFactor':
+//             const primaryDisplay = screen.getPrimaryDisplay();
+//             const scaleFactor = 1 / primaryDisplay.scaleFactor;
+//             sendVueMain({ type: 'getScaleFactor', val: scaleFactor })
+//             break;
+//         default:
+//             break;
+//     }
+// })
 
 
 
