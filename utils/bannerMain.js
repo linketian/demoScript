@@ -1,4 +1,4 @@
-import { app, Tray, BrowserWindow, Menu, ipcMain, globalShortcut, screen, dialog } from 'electron'
+const { app, Tray, BrowserWindow, Menu, ipcMain, globalShortcut, screen, dialog } = require('electron');
 const path = require('path');
 const isDev = require('electron-is-dev');
 
