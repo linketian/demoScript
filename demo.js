@@ -115,7 +115,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     // 写入主进程文件
-    fs.writeFileSync('electron/main.js', mainContent);
+    fs.writeFileSync('electron/background.js', mainContent);
     fs.writeFileSync('electron/electron-preload.js', preloadContent);
     console.log('✅ 已创建Electron主进程文件');
   } catch (error) {
@@ -133,8 +133,8 @@ const updatePackageJson = () => {
     // 添加Electron启动脚本
     pkg.scripts = {
       ...pkg.scripts,
-      "electron:start": "electron ./electron/main.js",
-      "electron:dev": "concurrently \"npm start\" \"wait-on http://localhost:3000 && electron ./electron/main.js\""
+      "electron:start": "electron ./electron/background.js",
+      "electron:dev": "concurrently \"npm start\" \"wait-on http://localhost:3000 && electron ./electron/background.js\""
     };
 
     // 安装concurrently和wait-on（开发依赖）
@@ -157,7 +157,7 @@ const detectProjectType = () => {
   if (dependencies.vue) {
     console.log('🔍 检测到Vue项目，自动调整配置...');
     // 修改Electron主进程中的端口和路径（Vue默认8080端口）
-    const mainPath = 'electron/main.js';
+    const mainPath = 'electron/background.js';
     let content = fs.readFileSync(mainPath, 'utf8');
     content = content.replace('http://localhost:3000', 'http://localhost:8080');
     content = content.replace('../build/index.html', 'dist/index.html');
