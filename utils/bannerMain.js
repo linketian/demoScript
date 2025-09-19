@@ -18,12 +18,12 @@ function createWindow() {
     });
 
     // 加载应用
-    mainWindow.loadURL(
-        isDev
-            ? 'http://localhost:${getVitePort()}' // 默认React开发服务器
-            : `file://\${path.join(__dirname, '../build/index.html')}` // React构建路径
-    );
+    if (isDev) {
+        mainWindow.loadURL(`http://localhost:${getVitePort()}`);
+    } else {
+        mainWindow.loadURL(`file://${path.join(__dirname, '../build/index.html')}`);
 
+    }
     // 开发环境打开开发者工具
     if (isDev) {
         mainWindow.webContents.openDevTools();
